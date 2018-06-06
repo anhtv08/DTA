@@ -10,6 +10,17 @@ Following subject will be cover
 - Stack
 - Queue
 
+### Advanced data structure
+- Ring buffer ( lock-free data structure)
+
+### Concurrent Data structure and framework
+- Non Blocking  
+    - ConcurrentHashMap
+    - NonBlockingQueue
+
+- Blocking
+    - BlockingQueue
+
 ### Basic Algorithms
 - Strings
 - Numbers
