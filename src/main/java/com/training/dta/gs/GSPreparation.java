@@ -15,11 +15,11 @@ public class GSPreparation {
     public static  int maxStairCase(int blocks){
 
 
-       if (blocks< 1) return  -1;
+       if (blocks< 0) return  -1;
 
        int index=1;
-       int height =1;
-       int sum = 1;
+       int height =0;
+       int sum = 0;
        while (sum <= blocks){
            index++;
            sum = sum + index;
