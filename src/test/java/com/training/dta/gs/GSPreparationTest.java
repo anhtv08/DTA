@@ -18,9 +18,11 @@ public class GSPreparationTest {
 
     @Test
     public void maxStairCase() {
-        assertEquals(1, gsPreparation.maxStairCase(1));
         assertEquals(0, gsPreparation.maxStairCase(0));
-        assertEquals(2, gsPreparation.maxStairCase(2));
+        assertEquals(1, gsPreparation.maxStairCase(1));
+        assertEquals(1, gsPreparation.maxStairCase(2));
+        assertEquals(2, gsPreparation.maxStairCase(3));
+        assertEquals(2, gsPreparation.maxStairCase(4));
     }
 
     @org.junit.Test
