@@ -47,56 +47,87 @@ public class MyBlockingQueueTest {
     public void stressTest(){
 
         MyBlockingQueue<Integer> myBlockingQueue = new MyBlockingQueue<>(20);
-        PushThread pushThead = new PushThread(myBlockingQueue);
-        ReadThread getThead = new ReadThread(myBlockingQueue);
+        PushThread pushThead = new PushThread(myBlockingQueue,"pushThead");
+        ReadThread getThead = new ReadThread(myBlockingQueue, "getThead");
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.submit(pushThead);
-        executorService.submit(getThead);
+        //executorService.submit(getThead);
+
+        if(executorService.isTerminated()){
+            executorService.shutdown();
+        }
 
     }
     static class PushThread implements Runnable {
 
+        private String name;
+        boolean cancelled = false;
         MyBlockingQueue<Integer> myBlockingQueue;
-        public  PushThread(MyBlockingQueue<Integer> myBlockingQueue){
+        private  int counter =0;
+        public  PushThread(MyBlockingQueue<Integer> myBlockingQueue, String name){
             this.myBlockingQueue = myBlockingQueue;
+            this.name = name;
         }
 
         @Override
         public void run() {
-            int counter=0;
-            while (true) {
+            int el=0;
+            while (!cancelled) {
                 try {
-                    myBlockingQueue.push(counter++);
-                    Thread.sleep(500);
+                    System.out.println("Running thread: " + this.name) ;
+
+                    counter++;
+                    System.out.println("Push counter: " + this.counter) ;
+                    myBlockingQueue.push(el++);
+                    Thread.sleep(5000);
                 } catch (InterruptedException e) {
+
                     e.printStackTrace();
                 }
 
-
             }
+        }
+        public void setCancell(){
+            this.cancelled =true;
         }
     }
 
     static class ReadThread implements Runnable {
 
         MyBlockingQueue<Integer> myBlockingQueue;
-        public  ReadThread(MyBlockingQueue<Integer> myBlockingQueue){
+        private String name;
+        private boolean cancelled =false;
+        private  int counter =0;
+
+        public  ReadThread(MyBlockingQueue<Integer> myBlockingQueue, String name){
             this.myBlockingQueue = myBlockingQueue;
+            this.name = name;
+
         }
+
+
 
         @Override
         public void run() {
-            while (true) {
+            while (!cancelled) {
                 try {
+
+                    System.out.println("Running thread: " + this.name) ;
+                    counter++;
+                    System.out.println(" Read counter: " + this.counter) ;
                     myBlockingQueue.pop();
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
 
             }
+        }
+
+        public void setCancell(){
+            this.cancelled =true;
         }
     }
 

@@ -1,23 +1,15 @@
 package com.training.dta.core.array.concurent;
-
-import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Queue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class MyBlockingQueue<T> {
     AtomicInteger size;
     int cap;
     T[] data;
     int TIME_OUT = 1000; // MS SECONDS
-
-    Queue<T> queue = new LinkedList<>();
-    Lock lock = new ReentrantLock();
+    Queue<T> queue;
 
     public MyBlockingQueue(int cap) {
         this.cap = cap;
@@ -26,29 +18,25 @@ public class MyBlockingQueue<T> {
         size = new AtomicInteger(0);
     }
 
-    public boolean push(T el) {
+    public synchronized boolean push(T el) {
         boolean result;
 
-        if(queue.size() == cap){
-            while (queue.size() == cap) {
-                try {
-//                wait(TIME_OUT);
-                    wait(TIME_OUT);
-                    queue.add(el);
-                    size.getAndIncrement();
+        while (queue.size() == cap) {
+            try {
 
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                System.out.println("Waiting push");
+                wait(TIME_OUT);
 
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            notifyAll();
-        }else{
-            queue.add(el);
-            size.getAndIncrement();
-        }
-        result = true;
 
+        }
+        queue.add(el);
+        size.getAndIncrement();
+
+        notify();
+        result = true;
         return result;
 
 
@@ -63,28 +51,20 @@ public class MyBlockingQueue<T> {
     }
 
 
-    public Optional<T> pop() {
-        T el =null;
+    public synchronized Optional<T> pop() {
+        T el;
 
-        if(queue.isEmpty()){
-            while (queue.isEmpty()) { // queue is empty
-                try {
-                    wait(TIME_OUT);
-                    el =queue.poll();
-                    size.getAndDecrement();
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    el = null;
-                }
+        while (queue.isEmpty()) { // queue is empty
+            try {
+                System.out.println("Waiting Pop");
+                wait(TIME_OUT);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            notifyAll();
-
-        }else{
-            el =queue.poll();
-            size.getAndDecrement();
-
         }
+        el =queue.poll();
+        size.getAndDecrement();
+        notify();
 
         return Optional.ofNullable(el);
 
