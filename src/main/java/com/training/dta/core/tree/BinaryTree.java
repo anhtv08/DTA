@@ -1,4 +1,4 @@
-package com.training.dta.core;
+package com.training.dta.core.tree;
 
 import java.util.*;
 import java.util.LinkedList;
