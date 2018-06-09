@@ -4,15 +4,17 @@ import java.util.Map;
 
 public class StringProblems {
 
-    final  String PUNCTUATION = "[,.]";
+    final  String PUNCTUATION = "[,.;?:]";
     public String mostCommonWord(String paragraph, String[] banned) {
+
+        if (paragraph !=null && paragraph.isEmpty()) return  "";
 
         String cleanedUpInput = cleanUpInput(paragraph);
         String [] words = cleanedUpInput.split(" ");
 
         Map<String, Integer> temp = new HashMap<>();
 
-        int maxLen =0;
+
 
         for (String word: words){
             if(!isBanned(word, banned)){
@@ -24,7 +26,10 @@ public class StringProblems {
                 }
             }
         }
+
+        // this is my piece of code to find most used word
         String key = "" ;
+        int maxLen =0;
         for (Map.Entry<String,Integer> entry:  temp.entrySet()){
 
             if(entry.getValue() > maxLen){
