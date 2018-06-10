@@ -1,20 +1,49 @@
 package com.training.dta.core.graph;
 import java.util.LinkedList;
 import java.util.List;
-public class MyGraph<T> {
+import java.util.Optional;
 
-    T data;
-    List<T> relatedNodes;
+public class MyGraph<Node> {
 
-   public MyGraph (T data){
-        this.data = data;
-        relatedNodes = new LinkedList<>();
+   Node root;
+
+   public MyGraph (Node root){
+        this.root = root;
     }
-    public void setRelatedNodes(List<T> relatedNodes) {
-        this.relatedNodes = relatedNodes;
+
+    public void setRoot(Node root) {
+        this.root = root;
     }
-    public List<T> getRelatedNodes() {
-        return relatedNodes;
+
+    public MyGraph(){}
+
+    static  class  Node<E>{
+        E data;
+        List<Node> relatedNodes;
+
+       public Node(){}
+
+        public void setData(E data) {
+            this.data = data;
+        }
+
+        public Node (E data){
+            this.data = data;
+            relatedNodes = new LinkedList<>();
+        }
+        public void setRelatedNodes(List<Node> relatedNodes) {
+            this.relatedNodes = relatedNodes;
+        }
+        public List<Node> getRelatedNodes() {
+            return relatedNodes;
+        }
+    }
+
+    public  void traversal(){
+
+    }
+    public Optional<MyGraph.Node> findNode(MyGraph.Node node){
+       return Optional.empty();
     }
 
 }
