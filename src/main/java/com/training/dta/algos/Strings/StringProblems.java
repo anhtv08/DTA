@@ -15,7 +15,6 @@ public class StringProblems {
         Map<String, Integer> temp = new HashMap<>();
 
 
-
         for (String word: words){
             if(!isBanned(word, banned)){
                 if (temp.containsKey(word)){
