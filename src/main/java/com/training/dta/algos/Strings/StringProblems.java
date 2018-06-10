@@ -48,7 +48,7 @@ public class StringProblems {
 
         Map<String, Integer> result = new HashMap<>();
         int  startIndex = 0;
-        int  endIndex = 0;
+//        int  endIndex = 0;
 
         char [] temp = input.toCharArray();
         for (int i =0; i < temp.length-1 ; i++){
@@ -60,7 +60,7 @@ public class StringProblems {
                     result.clear();
                     result.put(new String (Arrays.copyOfRange(temp,startIndex, i + 1)), currentLen);
                     currentMax = currentLen;
-                    startIndex = endIndex;
+//                    startIndex = endIndex;
                     currentLen = 1;
 
                 }else if (currentLen == currentMax){
