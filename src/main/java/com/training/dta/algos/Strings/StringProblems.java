@@ -1,4 +1,6 @@
 package com.training.dta.algos.Strings;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +39,45 @@ public class StringProblems {
             }
         }
         return key;
+    }
+
+    public Map<String, Integer> getLargestIndentialSubString(final  String input){
+        if (input ==null && input.isEmpty()) return Collections.EMPTY_MAP;
+        int currentMax = 0;
+        int currentLen = 1;
+
+        Map<String, Integer> result = new HashMap<>();
+        int  startIndex = 0;
+        int  endIndex = 0;
+
+        char [] temp = input.toCharArray();
+        for (int i =0; i < temp.length-1 ; i++){
+            if(temp[i] ==temp[i+1]){
+                 currentLen ++;
+            }else {
+                if (currentLen>currentMax){
+
+                    result.clear();
+                    result.put(new String (Arrays.copyOfRange(temp,startIndex, i + 1)), currentLen);
+                    currentMax = currentLen;
+                    startIndex = endIndex;
+                    currentLen = 1;
+
+                }else if (currentLen == currentMax){
+                    result.put(new String (Arrays.copyOfRange(temp, startIndex ,i+1).toString()), currentLen);
+                    startIndex = i;
+                    currentLen = 1;
+                } else {
+                    continue;
+                }
+            }
+        }
+
+        // for last possible result
+        if (currentLen== currentMax){
+            result.put( new String(Arrays.copyOfRange(temp,startIndex, temp.length)), currentLen);
+        }
+        return result;
     }
 
     // remove all punctuation such , .
